@@ -89,13 +89,6 @@ for (name in r2py_names) {
       var = data$var
     )
     write_h5ad(ad, filename)
-    # ad <- HDF5AnnData$new(
-    #   file = filename,
-    #   layers = layers,
-    #   obs = data$obs,
-    #   var = data$var
-    # )
-    # ad$close()
 
     # read from file
     ad_new <- anndata::read_h5ad(filename)

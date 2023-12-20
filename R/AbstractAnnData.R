@@ -167,9 +167,9 @@ AbstractAnnData <- R6::R6Class("AbstractAnnData", # nolint
       to_InMemoryAnnData(self)
     },
     #' @description Convert to an HDF5 Backed AnnData
-    #' @param path The path to the HDF5 file
-    to_HDF5AnnData = function(path) {
-      to_HDF5AnnData(self, path)
+    #' @param file The path to the HDF5 file
+    to_HDF5AnnData = function(file) {
+      to_HDF5AnnData(self, file)
     }
   ),
   private = list(

@@ -4,10 +4,9 @@
 #'
 #' @param object The object to write, either a "SingleCellExperiment" or a
 #' "Seurat" object
-#' @param path Path of the file to write to
-#' @param compression The compression algorithm to use when writing the
-#'  HDF5 file. Can be one of `"none"`, `"gzip"` or `"lzf"`. Defaults to
-#' `"none"`.
+#' @param file Path of the file to write to
+#' @param gzip_level The level of gzip compression to use, an integer between
+#'   1 and 9. 1 is the fastest and 9 is the most compressed.
 #' @param mode The mode to open the HDF5 file.
 #'
 #'   * `a` creates a new file or opens an existing one for read/write.
@@ -15,7 +14,7 @@
 #'   * `w` creates a file, truncating any existing ones
 #'   * `w-`/`x` are synonyms creating a file and failing if it already exists.
 #'
-#' @return `path` invisibly
+#' @return `file` invisibly
 #' @export
 #'
 #' @examples
@@ -73,40 +72,32 @@
 #' }
 write_h5ad <- function(
     object,
-    path,
-    compression = c("none", "gzip", "lzf"),
-    mode = c("w-", "r", "r+", "a", "w", "x")) {
-  mode <- match.arg(mode)
+    file,
+    gzip_level = 6L) {
   adata <-
     if (inherits(object, "SingleCellExperiment")) {
       from_SingleCellExperiment(
         object,
         output_class = "HDF5AnnData",
-        file = path,
-        compression = compression,
-        mode = mode
+        file = file,
+        gzip_level = gzip_level
       )
     } else if (inherits(object, "Seurat")) {
       from_Seurat(
         object,
         output_class = "HDF5AnnData",
-        file = path,
-        compression = compression,
-        mode = mode
+        file = file,
+        gzip_level = gzip_level
       )
     } else if (inherits(object, "AbstractAnnData")) {
       to_HDF5AnnData(
         object,
-        path,
-        compression = compression,
-        mode = mode
+        file = file,
+        gzip_level = gzip_level
       )
     } else {
       stop("Unable to write object of class: ", class(object))
     }
-  adata$close()
-  rm(adata)
-  gc()
 
-  invisible(path)
+  invisible(file)
 }

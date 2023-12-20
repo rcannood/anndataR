@@ -69,6 +69,7 @@ Suggests:
     knitr,
     reticulate,
     hdf5r,
+    hdf5r.Extra,
     rmarkdown,
     S4Vectors,
     SeuratObject,
